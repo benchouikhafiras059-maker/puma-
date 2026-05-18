@@ -295,18 +295,6 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
         style={{ transform: facingMode === 'user' ? 'scaleX(-1)' : 'none', opacity: 0 }}
       />
 
-      {/* Flip camera button */}
-      {(status !== 'cam-denied' && status !== 'cam-in-use') && (
-        <button
-          onClick={flipCamera}
-          className="absolute top-3 left-3 z-20 w-10 h-10 bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors active:scale-95"
-          aria-label="Flip camera"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 7h-9"/><path d="M14 17H5"/><polyline points="15 2 20 7 15 12"/><polyline points="9 22 4 17 9 12"/>
-          </svg>
-        </button>
-      )}
 
       {/* Face alignment guide — only while detecting */}
       {isDetecting && (
@@ -447,6 +435,18 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
           </div>
         </div>
       )}
+
+      {/* Flip camera — always on top of every overlay */}
+      <button
+        onClick={flipCamera}
+        className="absolute top-3 left-3 z-50 w-11 h-11 bg-black/60 flex items-center justify-center active:scale-95"
+        aria-label="Flip camera"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 7h-9"/><path d="M14 17H5"/>
+          <polyline points="15 2 20 7 15 12"/><polyline points="9 22 4 17 9 12"/>
+        </svg>
+      </button>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import AR3DCameraView from './AR3DCameraView';
 
+const BASE = import.meta.env.BASE_URL;
+
 export default function TryOnModal({ isOpen, onClose }) {
   const [view, setView]   = useState('3d'); // '3d' | 'camera'
   const modelRef          = useRef(null);
@@ -68,7 +70,7 @@ export default function TryOnModal({ isOpen, onClose }) {
             <div className="relative bg-[#f0f0f0] flex-1" style={{ minHeight: '340px' }}>
               <model-viewer
                 ref={modelRef}
-                src="/mostro-bag.glb"
+                src={`${BASE}mostro-bag.glb`}
                 alt="PUMA Mostro Bag"
                 camera-controls
                 auto-rotate

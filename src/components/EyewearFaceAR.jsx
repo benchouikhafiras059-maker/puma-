@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+const BASE = import.meta.env.BASE_URL;
+
 // ── Tuning constants ──────────────────────────────────────────────────────────
 const GLASSES_SCALE = 1.45;   // multiplier on outer-eye-corner distance
 const PITCH_MULT    = 1.3;
@@ -119,7 +121,7 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
       scene.add(dL2);
 
       // ── Load glasses ─────────────────────────────────────────────────────
-      new GLTFLoader().load('/puma-eyewear.glb', gltf => {
+      new GLTFLoader().load(`${BASE}puma-eyewear.glb`, gltf => {
         if (!active) return;
         const model = gltf.scene;
         model.updateMatrixWorld(true);

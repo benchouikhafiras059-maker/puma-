@@ -1,7 +1,9 @@
 import { useState, useRef, useCallback } from 'react';
 
+const BASE = import.meta.env.BASE_URL;
+
 const images = [
-  { id: 1, src: '/puma-bag.png', alt: 'PUMA Mostro Bag — front view' },
+  { id: 1, src: `${BASE}puma-bag.png`, alt: 'PUMA Mostro Bag — front view' },
 ];
 
 function SoundOnIcon() {
@@ -33,7 +35,7 @@ export default function ProductGallery() {
   const playSnarl = useCallback(() => {
     if (!soundOn) return;
     if (!audioRef.current) {
-      audioRef.current = new Audio('/puma-snarl.mp3');
+      audioRef.current = new Audio(`${BASE}puma-snarl.mp3`);
       audioRef.current.volume = 0.7;
     }
     const audio = audioRef.current;
@@ -69,7 +71,7 @@ export default function ProductGallery() {
 
         {/* 3D model viewer */}
         <model-viewer
-          src="/mostro-bag.glb"
+          src={`${BASE}mostro-bag.glb`}
           alt="PUMA Mostro Bag 3D model"
           camera-controls
           auto-rotate

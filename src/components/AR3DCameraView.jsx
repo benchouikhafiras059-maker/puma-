@@ -5,6 +5,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+const BASE = import.meta.env.BASE_URL;
+
 export default function AR3DCameraView() {
   const [stage,    setStage]   = useState('idle');   // idle | requesting | live | denied
   const [loading,  setLoading] = useState(false);
@@ -102,7 +104,7 @@ export default function AR3DCameraView() {
     setLoading(true);
     const loader = new GLTFLoader();
     loader.load(
-      '/mostro-bag.glb',
+      `${BASE}mostro-bag.glb`,
       (gltf) => {
         const model = gltf.scene;
 

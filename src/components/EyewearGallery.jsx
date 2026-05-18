@@ -1,10 +1,12 @@
+const BASE = import.meta.env.BASE_URL;
+
 export default function EyewearGallery() {
   return (
     <div className="flex gap-3 lg:gap-4 items-start">
       {/* Main viewer */}
       <div className="flex-1 relative bg-[#f2f2f2] overflow-hidden" style={{ aspectRatio: '1 / 1' }}>
         <model-viewer
-          src="/puma-eyewear.glb"
+          src={`${BASE}puma-eyewear.glb`}
           alt="PUMA Eyewear 3D model"
           camera-controls
           auto-rotate

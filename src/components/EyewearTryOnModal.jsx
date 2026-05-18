@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import EyewearFaceAR from './EyewearFaceAR';
 
+const BASE = import.meta.env.BASE_URL;
+
 export default function EyewearTryOnModal({ isOpen, onClose }) {
   const [view, setView] = useState('3d');
   const modelRef = useRef(null);
@@ -66,7 +68,7 @@ export default function EyewearTryOnModal({ isOpen, onClose }) {
             <div className="relative bg-[#f0f0f0] flex-1" style={{ minHeight: '340px' }}>
               <model-viewer
                 ref={modelRef}
-                src="/puma-eyewear.glb"
+                src={`${BASE}puma-eyewear.glb`}
                 alt="PUMA Sport Eyewear"
                 camera-controls
                 auto-rotate

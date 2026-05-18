@@ -4,7 +4,7 @@ import EyewearPage from './components/EyewearPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/puma-">
       <Routes>
         <Route path="/" element={<ProductPage />} />
         <Route path="/eyewear" element={<EyewearPage />} />

@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export default function AR3DCameraView() {
   const [stage,    setStage]   = useState('idle');   // idle | requesting | live | denied

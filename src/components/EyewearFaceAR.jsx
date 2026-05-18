@@ -36,10 +36,13 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
   const videoRef  = useRef(null);
   const canvasRef = useRef(null);
 
-  const [status, setStatus] = useState('cam-loading');
+  const [status,      setStatus]      = useState('cam-loading');
   // cam-loading | cam-denied | cam-in-use | det-loading | detecting | tracking | det-error
-  const [hasFace, setHasFace] = useState(false);
-  const [aspect,  setAspect]  = useState(4 / 3);
+  const [hasFace,     setHasFace]     = useState(false);
+  const [aspect,      setAspect]      = useState(4 / 3);
+  const [facingMode,  setFacingMode]  = useState('user');  // 'user' = selfie | 'environment' = back
+
+  const flipCamera = () => setFacingMode(f => f === 'user' ? 'environment' : 'user');
 
   // Manual adjustment (offset on top of tracked position)
   const [adj, setAdj] = useState({ dx: 0, dy: 0, ds: 1 });
@@ -71,18 +74,24 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
     let glassesGroup = null;
     let glassesOpacity = 0;
 
+    // Reset tracking state on each camera restart
+    lmRef.current    = null;
+    posRef.current   = { x: null, y: null };
+    rotRef.current   = { roll: null, yaw: null, pitch: null };
+    scaleRef.current = null;
+    stableRef.current = 0;
+
     async function init() {
+      setStatus('cam-loading');
       // ── Camera ─────────────────────────────────────────────────────────────
       let stream;
       try {
-        // Try front camera first with exact constraint
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { exact: 'user' } },
+          video: { facingMode: { exact: facingMode } },
           audio: false,
         }).catch(() =>
-          // Fallback: hint only (some desktops don't support 'exact')
           navigator.mediaDevices.getUserMedia({
-            video: { facingMode: 'user' },
+            video: { facingMode },
             audio: false,
           })
         );
@@ -260,8 +269,9 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
       cancelAnimationFrame(rafId);
       videoRef.current?.srcObject?.getTracks().forEach(t => t.stop());
       renderer?.dispose();
+      if (canvasRef.current) canvasRef.current.style.opacity = 0;
     };
-  }, []);
+  }, [facingMode]);
 
   // ── JSX ──────────────────────────────────────────────────────────────────
   const isTracking = status === 'tracking';
@@ -270,20 +280,33 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
   return (
     <div className="relative w-full bg-black overflow-hidden select-none" style={{ aspectRatio: aspect }}>
 
-      {/* Camera feed — selfie mirror */}
+      {/* Camera feed — mirrored only in selfie mode */}
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         playsInline muted
-        style={{ transform: 'scaleX(-1)' }}
+        style={{ transform: facingMode === 'user' ? 'scaleX(-1)' : 'none' }}
       />
 
       {/* Three.js glasses overlay — mirrored to match video */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{ transform: 'scaleX(-1)', opacity: 0 }}
+        style={{ transform: facingMode === 'user' ? 'scaleX(-1)' : 'none', opacity: 0 }}
       />
+
+      {/* Flip camera button */}
+      {(status !== 'cam-denied' && status !== 'cam-in-use') && (
+        <button
+          onClick={flipCamera}
+          className="absolute top-3 left-3 z-20 w-10 h-10 bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors active:scale-95"
+          aria-label="Flip camera"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 7h-9"/><path d="M14 17H5"/><polyline points="15 2 20 7 15 12"/><polyline points="9 22 4 17 9 12"/>
+          </svg>
+        </button>
+      )}
 
       {/* Face alignment guide — only while detecting */}
       {isDetecting && (

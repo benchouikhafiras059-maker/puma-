@@ -75,10 +75,17 @@ export default function EyewearFaceAR({ productName = 'PUMA Sport Eyewear', colo
       // ── Camera ─────────────────────────────────────────────────────────────
       let stream;
       try {
+        // Try front camera first with exact constraint
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+          video: { facingMode: { exact: 'user' } },
           audio: false,
-        });
+        }).catch(() =>
+          // Fallback: hint only (some desktops don't support 'exact')
+          navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user' },
+            audio: false,
+          })
+        );
       } catch (err) {
         setStatus(err.name === 'NotReadableError' ? 'cam-in-use' : 'cam-denied');
         return;

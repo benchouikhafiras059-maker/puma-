@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* ── PUMA Brand Fonts ──────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'FFDINforPUMA';
+  src: url('/fonts/FFDINforPUMA-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FFDINforPUMA';
+  src: url('/fonts/FFDINforPUMA-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FFDINforPUMA';
+  src: url('/fonts/FFDINforPUMA-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FFDINforPUMA';
+  src: url('/fonts/FFDINforPUMA-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FFDINforPUMA-CondBold';
+  src: url('/fonts/FFDINforPUMA-CondBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MyPUMA';
+  src: url('/fonts/MYPUMA__.TTF') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'FFDINforPUMA', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+  }
+  #root {
+    width: 100%;
+    min-height: 100vh;
+  }
+}
